@@ -10,6 +10,8 @@ from flask_login import UserMixin, login_user, LoginManager, login_required, cur
 from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm
 from flask_gravatar import Gravatar
 from functools import wraps
+from dotenv import load_dotenv
+import os
 
 ##ADMIN DECORATOR
 def admin_only(f):
@@ -22,8 +24,9 @@ def admin_only(f):
 
 
 ##INITIALISE FLASK
+load_dotenv()
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 ckeditor = CKEditor(app)
 Bootstrap(app)
 
@@ -164,6 +167,7 @@ def show_post(post_id):
             )
             db.session.add(new_comment)
             db.session.commit()
+            return redirect(url_for("show_post",post_id=requested_post.id))
            
     return render_template("post.html", post=requested_post, form=form, current_user=current_user)
 
