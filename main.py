@@ -77,7 +77,7 @@ class User(UserMixin, db.Model):
     comments = relationship(Comment, back_populates="comment_author")
 
 
-#db.create_all()
+db.create_all()
 
 
 ##INITIALISE GRAVATAR
